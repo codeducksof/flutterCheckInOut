@@ -1,11 +1,13 @@
 import 'package:basicflutter2/homescreen.dart';
+import 'package:basicflutter2/model/user.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'map.dart';
+// import 'map.dart';
 import 'package:basicflutter2/loginscreen.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'model/user.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,42 +32,42 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
+// class MyHomePage extends StatefulWidget {
+//   const MyHomePage({super.key, required this.title});
+//   final String title;
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
+//   @override
+//   State<MyHomePage> createState() => _MyHomePageState();
+// }
 
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Welcome to Google Maps Application:',
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => MapsPage()));
-        },
-        tooltip: 'Increment',
-        child: const Icon(Icons.near_me),
-      ),
-    );
-  }
-}
+// class _MyHomePageState extends State<MyHomePage> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text(widget.title),
+//       ),
+//       body: Center(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: <Widget>[
+//             const Text(
+//               'Welcome to Google Maps Application:',
+//             ),
+//           ],
+//         ),
+//       ),
+//       floatingActionButton: FloatingActionButton(
+//         onPressed: () {
+//           Navigator.push(
+//               context, MaterialPageRoute(builder: (context) => MapsPage()));
+//         },
+//         tooltip: 'Increment',
+//         child: const Icon(Icons.near_me),
+//       ),
+//     );
+//   }
+// }
 
 class AuthCheck extends StatefulWidget {
   const AuthCheck({super.key});
@@ -80,14 +82,16 @@ class _AuthCheckState extends State<AuthCheck> {
   @override
   void initState() {
     super.initState();
+
+    _getCurrentUser();
   }
 
   Future<void> _getCurrentUser() async {
     sharedPreferences = await SharedPreferences.getInstance();
-
     try {
       if (sharedPreferences.getString('employeeId') != null) {
         setState(() {
+          User.username = sharedPreferences.getString('employeeId')!;
           userAvailable = true;
         });
       }
