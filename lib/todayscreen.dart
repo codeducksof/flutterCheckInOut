@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 // import 'package:flutter/src/widgets/framework.dart';
 import 'package:slide_to_act/slide_to_act.dart';
 import 'package:intl/intl.dart';
-// import 'model/user.dart';
 
 class TodayScreen extends StatefulWidget {
   const TodayScreen({super.key});
@@ -47,7 +46,7 @@ class _TodayScreenState extends State<TodayScreen> {
           .collection('Record')
           .doc(DateFormat('dd MMMM yyyy').format(DateTime.now()))
           .get();
-      print(snap2['checkIn']);
+
       setState(() {
         checkIn = snap2['checkIn'];
         checkOut = snap2['checkOut'];
@@ -197,7 +196,7 @@ class _TodayScreenState extends State<TodayScreen> {
               }),
           checkOut == "--/--"
               ? Container(
-                  margin: EdgeInsets.only(top: 24),
+                  margin: const EdgeInsets.only(top: 24),
                   child: Builder(builder: (context) {
                     final GlobalKey<SlideActionState> key = GlobalKey();
                     return SlideAction(
@@ -212,9 +211,10 @@ class _TodayScreenState extends State<TodayScreen> {
                       innerColor: primary,
                       key: key,
                       onSubmit: () async {
-                        Timer(Duration(seconds: 1), () {
-                          key.currentState!.reset();
-                        });
+                        await Future.delayed(
+                          Duration(seconds: 1),
+                          () => key.currentState!.reset(),
+                        );
 
                         QuerySnapshot snap = await FirebaseFirestore.instance
                             .collection("Employee")

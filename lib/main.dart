@@ -1,13 +1,12 @@
-import 'package:basicflutter2/homescreen.dart';
-import 'package:basicflutter2/model/user.dart';
+import 'homescreen.dart';
+import 'model/user.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'map.dart';
-import 'package:basicflutter2/loginscreen.dart';
+import 'loginscreen.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'model/user.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -86,7 +85,7 @@ class _AuthCheckState extends State<AuthCheck> {
     _getCurrentUser();
   }
 
-  Future<void> _getCurrentUser() async {
+  void _getCurrentUser() async {
     sharedPreferences = await SharedPreferences.getInstance();
     try {
       if (sharedPreferences.getString('employeeId') != null) {
