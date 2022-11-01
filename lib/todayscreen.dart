@@ -37,7 +37,7 @@ class _TodayScreenState extends State<TodayScreen> {
     try {
       QuerySnapshot snap = await FirebaseFirestore.instance
           .collection("Employee")
-          .where('id', isEqualTo: User.username)
+          .where('id', isEqualTo: User.employeeId)
           .get();
 
       DocumentSnapshot snap2 = await FirebaseFirestore.instance
@@ -83,7 +83,7 @@ class _TodayScreenState extends State<TodayScreen> {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              "Employee " + User.username,
+              "Employee " + User.employeeId,
               style:
                   TextStyle(fontFamily: "NexaBold", fontSize: screenWidth / 18),
             ),
@@ -212,13 +212,13 @@ class _TodayScreenState extends State<TodayScreen> {
                       key: key,
                       onSubmit: () async {
                         await Future.delayed(
-                          Duration(seconds: 1),
+                          Duration(microseconds: 500),
                           () => key.currentState!.reset(),
                         );
 
                         QuerySnapshot snap = await FirebaseFirestore.instance
                             .collection("Employee")
-                            .where('id', isEqualTo: User.username)
+                            .where('id', isEqualTo: User.employeeId)
                             .get();
 
                         DocumentSnapshot snap2 = await FirebaseFirestore
@@ -245,6 +245,7 @@ class _TodayScreenState extends State<TodayScreen> {
                               .doc(DateFormat('dd MMMM yyyy')
                                   .format(DateTime.now()))
                               .update({
+                            'date': Timestamp.now(),
                             'checkIn': checkIn,
                             'checkOut':
                                 DateFormat('hh:mm').format(DateTime.now())
@@ -261,8 +262,10 @@ class _TodayScreenState extends State<TodayScreen> {
                               .doc(DateFormat('dd MMMM yyyy')
                                   .format(DateTime.now()))
                               .set({
+                            'date': Timestamp.now(),
                             'checkIn':
-                                DateFormat('hh:mm').format(DateTime.now())
+                                DateFormat('hh:mm').format(DateTime.now()),
+                            'checkOut': "--/--"
                           });
                         }
                       },

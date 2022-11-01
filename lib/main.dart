@@ -1,3 +1,5 @@
+import 'package:month_year_picker/month_year_picker.dart';
+
 import 'homescreen.dart';
 import 'model/user.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -27,6 +29,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const KeyboardVisibilityProvider(child: AuthCheck()),
+      localizationsDelegates: const [MonthYearPickerLocalizations.delegate],
     );
   }
 }
@@ -90,7 +93,7 @@ class _AuthCheckState extends State<AuthCheck> {
     try {
       if (sharedPreferences.getString('employeeId') != null) {
         setState(() {
-          User.username = sharedPreferences.getString('employeeId')!;
+          User.employeeId = sharedPreferences.getString('employeeId')!;
           userAvailable = true;
         });
       }

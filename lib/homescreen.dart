@@ -1,8 +1,10 @@
 import 'package:basicflutter2/calendarscreen.dart';
 import 'package:basicflutter2/profilescreen.dart';
 import 'package:basicflutter2/todayscreen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import './model/user.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,6 +27,25 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    getId();
+  }
+
+  void getId() async {
+    QuerySnapshot snap = await FirebaseFirestore.instance
+        .collection("Employee")
+        .where('id', isEqualTo: User.employeeId)
+        .get();
+
+    setState(() {
+      User.id = snap.docs[0].id;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     screenHeight = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.width;
@@ -32,11 +53,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: IndexedStack(
         index: currentIndex,
-        children: const [
+        children: [
           //3 ไฟล์นี้จะอ้างอิงจาก setState currentIndex
-          CalendarScreen(),
-          TodayScreen(),
-          ProfileScreen(),
+          new CalendarScreen(),
+          new TodayScreen(),
+          new ProfileScreen(),
         ],
       ),
       bottomNavigationBar: Container(
